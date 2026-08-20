@@ -55,7 +55,7 @@ A FarmTech Solutions atende uma fazenda de médio porte (≈200 ha) que produz v
 
 ### 📒 Notebook
 
-➡️ [`notebooks/JoaoPedroZavanelaAndreu_rm570231_pbl_fase4.ipynb`](notebooks/JoaoPedroZavanelaAndreu_rm570231_pbl_fase4.ipynb)
+➡️ [`notebooks/JoaoPedroZavanelaAndreu_rm570231_pbl_fase5.ipynb`](notebooks/JoaoPedroZavanelaAndreu_rm570231_pbl_fase5.ipynb)
 
 > O notebook contém células de código executadas e comentadas, além de células markdown com a análise, achados, pontos fortes e limitações do trabalho.
 
@@ -147,7 +147,7 @@ pip install -r requirements.txt
 ### Executar
 
 ```bash
-jupyter notebook notebooks/JoaoPedroZavanelaAndreu_rm570231_pbl_fase4.ipynb
+jupyter notebook notebooks/JoaoPedroZavanelaAndreu_rm570231_pbl_fase5.ipynb
 ```
 
 > O dataset `crop_yield.csv` deve estar em `data/`.
@@ -164,7 +164,7 @@ fase-5-pbl-agro/
 ├── data/
 │   └── crop_yield.csv                     # Dataset (a adicionar)
 ├── notebooks/
-│   └── JoaoPedroZavanelaAndreu_rm570231_pbl_fase4.ipynb   # Entrega 1 — ML
+│   └── JoaoPedroZavanelaAndreu_rm570231_pbl_fase5.ipynb   # Entrega 1 — ML
 ├── src/                                   # Código auxiliar (se necessário)
 └── assets/                                # Prints da calculadora AWS e figuras
     ├── cotacao_sa_east_1.png
