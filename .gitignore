@@ -1,0 +1,38 @@
+# Ambiente virtual
+venv/
+.env/
+.env
+
+# Banco de dados local (gerado em tempo de execução)
+*.db
+*.sqlite
+*.sqlite3
+
+# Modelos e artefatos grandes (podem ser regenerados)
+# Mantemos .pkl no repo para que o notebook execute sem retreino.
+# Descomente para ignorar:
+# *.pkl
+# *.joblib
+
+# Dados processados (podem ser regenerados); mantemos o CSV bruto no repo
+data/processed/
+
+# Logs
+logs/
+*.log
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
