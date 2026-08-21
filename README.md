@@ -158,17 +158,29 @@ jupyter notebook notebooks/JoaoPedroZavanelaAndreu_rm570231_pbl_fase5.ipynb
 
 ```
 fase-5-pbl-agro/
-├── README.md                              # Este arquivo (intro + Entrega 2 AWS)
-├── requirements.txt                       # Dependências Python
+├── README.md                              # Intro + Entrega 2 (AWS) + Ir Além
+├── requirements.txt                       # Dependências (ML + API)
 ├── .gitignore
 ├── data/
-│   └── crop_yield.csv                     # Dataset (a adicionar)
+│   └── crop_yield.csv                     # Dataset (Entrega 1)
 ├── notebooks/
 │   └── JoaoPedroZavanelaAndreu_rm570231_pbl_fase5.ipynb   # Entrega 1 — ML
-├── src/                                   # Código auxiliar (se necessário)
-└── assets/                                # Prints da calculadora AWS e figuras
-    ├── cotacao_sa_east_1.png
-    └── cotacao_us_east_1.png
+├── src/
+│   ├── api/                               # "Ir Além" Opção 2 — API FastAPI
+│   │   ├── main.py                        #   app + /health + /predict
+│   │   └── schemas.py                     #   modelos Pydantic
+│   ├── esp32/                             # "Ir Além" Opção 1 — ESP32 (Wokwi)
+│   │   ├── farmtech_esp32.ino             #   firmware (sensores + POST)
+│   │   ├── diagram.json                   #   circuito Wokwi
+│   │   └── libraries.txt                  #   libs do Wokwi
+│   └── ml/models/                         # modelos serializados (Entrega 1)
+│       ├── best_regressor.pkl
+│       ├── health_classifier.pkl
+│       └── label_map.json
+└── assets/                                # Figuras da EDA, modelos e arquitetura
+    ├── eda_*.png  cluster_*.png  outliers_*.png  models_*.png
+    ├── arquitetura_ir_alem.png            # diagrama do Ir Além
+    └── cotacao_sa_east_1.png  cotacao_us_east_1.png  # (Entrega 2 — AWS)
 ```
 
 ---
@@ -260,6 +272,22 @@ simulado no [Wokwi](https://wokwi.com). A cada ciclo ele:
 `src/esp32/diagram.json` monta: ESP32 DevKit V1 + DHT22 (GPIO4) + potenciômetro como sensor
 de chuva analógico (GPIO34, ADC1 — compatível com Wi-Fi). Bibliotecas em
 `src/esp32/libraries.txt` (Adafruit DHT + Unified Sensor).
+
+### Justificativa dos sensores e alinhamento com a FarmTech
+
+Os sensores espelham as features climáticas usadas no treino do classificador:
+
+- **DHT22** (temperatura + umidade relativa): fornece diretamente `temperature` e
+  `relative_humidity` e, via fórmula de Magnus, a `specific_humidity` — as três features
+  derivadas de clima. Precisão ±0,5 °C / ±2 % UR, adequada a campo.
+- **Sensor de chuva analógico:** aproxima a `precipitation`. No Wokwi é emulado por um
+  potenciômetro (saída 0–3,3 V mapeada para a faixa de precipitação do dataset, com
+  inversão: maior tensão = seco = menor chuva). Em campo seria um módulo de chuva real,
+  calibrado para a escala de treino.
+- **Alinhamento FarmTech:** a fazenda de médio porte já usa sensores climáticos para
+  irrigation; o ESP32 reusa essa infraestrutura para alimentar o classificador de saúde em
+  tempo real, sem instalar novos sensores — apenas o firmware + a API. A cultura (`crop`) é
+  configurada por nó (`#define CROP`), permitindo um ESP32 por talhão.
 
 ### Como simular
 
