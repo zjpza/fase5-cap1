@@ -1,0 +1,18 @@
+{
+  "best_regressor": "Regressão Linear",
+  "medianas_rendimento": {
+    "Cocoa, beans": 8848.0,
+    "Oil palm fruit": 175629.0,
+    "Rice, paddy": 31101.0,
+    "Rubber, natural": 7817.0
+  },
+  "numeric_features": [
+    "Precipitação (mm dia 1)",
+    "Umidade Específica a 2 Metros (g/kg)",
+    "Umidade Relativa a 2 Metros (%)",
+    "Temperatura a 2 Metros (°C)"
+  ],
+  "categorical_feature": "Cultura",
+  "target": "Rendimento",
+  "seed": 42
+}
