@@ -181,7 +181,7 @@ jupyter notebook notebooks/JoaoPedroZavanelaAndreu_rm570231_pbl_fase5.ipynb
 ## 📁 Estrutura do repositório
 
 ```
-fase-5-pbl-agro/
+fase5-cap1/
 ├── README.md                              # Intro + Entrega 2 (AWS) + Ir Além
 ├── requirements.txt                       # Dependências (ML + API)
 ├── .gitignore

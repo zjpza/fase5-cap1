@@ -33,7 +33,7 @@ from fastapi import FastAPI
 from src.api.schemas import HealthResponse, PredictRequest, PredictResponse
 
 # --- Caminhos (robustos ao diretório de execução) ----------------------------
-REPO_ROOT = Path(__file__).resolve().parents[2]          # .../fase-5-pbl-agro
+REPO_ROOT = Path(__file__).resolve().parents[2]          # raiz do repo (fase5-cap1)
 MODELS_DIR = REPO_ROOT / "src" / "ml" / "models"
 CLASSIFIER_PATH = MODELS_DIR / "health_classifier.pkl"
 LABEL_MAP_PATH = MODELS_DIR / "label_map.json"
