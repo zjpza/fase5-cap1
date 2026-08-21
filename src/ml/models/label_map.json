@@ -1,5 +1,5 @@
 {
-  "best_regressor": "Regressão Linear",
+  "best_regressor": "Random Forest",
   "medianas_rendimento": {
     "Cocoa, beans": 8848.0,
     "Oil palm fruit": 175629.0,
