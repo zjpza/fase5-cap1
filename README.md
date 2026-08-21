@@ -95,8 +95,12 @@ pedido; a `t3.micro` é a correspondência exata.)
 
 ### Comparativo de custos (On-Demand, Linux, 730 h/mês)
 
-Valores em USD, coletados na calculadora AWS / tabela pública de preços (referência 2025).
-BRL indicativo a ≈ R$ 5,50 / US$ 1.
+Valores em USD, **fontes oficiais AWS** (referência 2025): tabela pública On-Demand do Amazon EC2
+e tabela de preços do Amazon EBS — ambas em aws.amazon.com. BRL indicativo a ≈ R$ 5,50 / US$ 1.
+
+**Fontes oficiais AWS:**
+- EC2 On-Demand (t3.micro): <https://aws.amazon.com/ec2/pricing/on-demand/> — us-east-1 $0,0104/h; sa-east-1 $0,0168/h (Linux, On-Demand).
+- Amazon EBS (gp3): <https://aws.amazon.com/ebs/pricing/> — us-east-1 $0,08/GB-mês; sa-east-1 $0,152/GB-mês.
 
 | Componente | São Paulo (sa-east-1) | Virgínia (us-east-1) |
 |------------|----------------------|----------------------|
