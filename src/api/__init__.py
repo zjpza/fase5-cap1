@@ -1,0 +1,1 @@
+"""Pacote da API FastAPI (Entrega "Ir Além" — Issue #3)."""

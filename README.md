@@ -175,9 +175,58 @@ fase-5-pbl-agro/
 
 ## 🧭 Ir Além *(opcional, sem nota)*
 
-Se o grupo optar por um dos desafios "Ir Além", a documentação ficará nesta seção.
+Optamos pela **Opção 2 — Classificação da saúde de plantações com ML**. Construímos uma
+API FastAPI que carrega o classificador de saúde serializado na Issue #1
+(`src/ml/models/health_classifier.pkl`) e serve um endpoint `/predict` que recebe as
+condições climáticas + cultura e retorna **Saudável** ou **Não Saudável** (relativo à
+mediana de cada cultura), com a confiança da predição.
 
-- [ ] **Opção 1** — Sistema de coleta e comunicação de dados com ESP32 + Wi-Fi
-- [ ] **Opção 2** — Classificação da saúde de plantações com ML + ESP32
+### Como rodar
 
-> _A definir conforme disponibilidade do grupo._
+```bash
+pip install -r requirements.txt
+python -m uvicorn src.api.main:app --reload --port 8000
+```
+
+Interface interativa (Swagger UI): <http://localhost:8000/docs>
+
+### Endpoints
+
+| Método | Rota | Descrição |
+|---------|------|-----------|
+| `GET` | `/health` | Status do serviço (`{"status":"ok","model_loaded":true}`) |
+| `POST` | `/predict` | Classifica a saúde de uma observação |
+
+**Exemplo de request (`POST /predict`):**
+
+```json
+{
+  "crop": "Cocoa, beans",
+  "precipitation": 2248.92,
+  "specific_humidity": 17.72,
+  "relative_humidity": 83.4,
+  "temperature": 26.01
+}
+```
+
+**Resposta:**
+
+```json
+{ "health": "Saudável", "confidence": 0.84 }
+```
+
+> Valores aceitos para `crop`: `Cocoa, beans`, `Oil palm fruit`, `Rice, paddy`,
+> `Rubber, natural` (exatamente como no dataset). Outros valores são rejeitados (HTTP 422).
+
+### Arquitetura
+
+O `.pkl` serializado **é o pipeline sklearn completo** (`ColumnTransformer` +
+`RandomForestClassifier`), logo o pré-processamento servido pela API é idêntico ao do
+treino — sem leakage nem inconsistência. A API apenas mapeia os nomes amigáveis do
+esquema de entrada (em inglês) para os nomes PT-BR esperados pelo `ColumnTransformer`
+(descritos em `src/ml/models/label_map.json`).
+
+| Arquivo | Função |
+|---------|--------|
+| [`src/api/main.py`](src/api/main.py) | App FastAPI (lifespan, `/health`, `/predict`) |
+| [`src/api/schemas.py`](src/api/schemas.py) | Modelos Pydantic de entrada/saída |

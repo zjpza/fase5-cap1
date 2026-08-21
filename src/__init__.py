@@ -1,0 +1,1 @@
+"""Pacote raiz do código-fonte da FarmTech Solutions (PBL Fase 5)."""
