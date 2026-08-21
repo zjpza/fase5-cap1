@@ -206,7 +206,7 @@ fase-5-pbl-agro/
 
 ---
 
-## 🧭 Ir Além *(opcional, sem nota)*
+## 🧭 Ir Além
 
 Implementamos **duas** opções do "Ir Além", que se integram ponta-a-ponta:
 
