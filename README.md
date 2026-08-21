@@ -85,36 +85,53 @@ A Machine Learning da Entrega 1 precisa ser hospedada em nuvem para receber dado
 
 ### Instância selecionada
 
-<!-- TODO: preencher após cotação na calculadora AWS -->
-<!-- Candidata: t3.small (2 vCPU, 2 GiB) — verificar se existe linha com exatamente 1 GiB e 2 vCPU -->
+A instância **`t3.micro`** atende exatamente à configuração exigida: 2 vCPU, 1 GiB de RAM,
+rede "Up to 5 Gigabit" e armazenamento via EBS. (A `t3.small` tem 2 GiB — mais RAM do que o
+pedido; a `t3.micro` é a correspondência exata.)
 
-| Instância | vCPU | RAM | Região |
-|-----------|------|-----|--------|
-| _a definir_ | 2 | 1 GiB | sa-east-1 / us-east-1 |
+| Instância | vCPU | RAM | Rede | Região |
+|-----------|------|-----|------|--------|
+| `t3.micro` | 2 | 1 GiB | Até 5 Gbps | sa-east-1 / us-east-1 |
 
-### Comparativo de custos
+### Comparativo de custos (On-Demand, Linux, 730 h/mês)
 
-<!-- Inserir prints da calculadora AWS em assets/ e referenciar aqui -->
+Valores em USD, coletados na calculadora AWS / tabela pública de preços (referência 2025).
+BRL indicativo a ≈ R$ 5,50 / US$ 1.
 
 | Componente | São Paulo (sa-east-1) | Virgínia (us-east-1) |
 |------------|----------------------|----------------------|
-| Instância (On-Demand, mensal) | _R$ / US$_ | _R$ / US$_ |
-| Volume EBS 50 GB (gp3) | _R$ / US$_ | _R$ / US$_ |
-| **Total mensal** | _R$ / US$_ | _R$ / US$_ |
+| Instância t3.micro (On-Demand) | $0,0168/h → **$12,26/mês** | $0,0104/h → **$7,59/mês** |
+| Volume EBS 50 GB (gp3) | $0,152/GB-mês → **$7,60/mês** | $0,08/GB-mês → **$4,00/mês** |
+| **Total mensal (USD)** | **$19,86** | **$11,59** |
+| Total mensal (BRL ≈5,50) | ≈ R$ 109,23 | ≈ R$ 63,75 |
+
+> São Paulo custa **~71% mais caro** que a Virgínia neste perfil (instância + EBS).
 
 ![Cotação AWS — São Paulo](assets/cotacao_sa_east_1.png)
 ![Cotação AWS — Virgínia](assets/cotacao_us_east_1.png)
 
+![Comparativo de custos AWS](assets/custo_aws_comparativo.png)
+
 ### Justificativa técnica
 
-> **Considerando:** (1) necessidade de acesso rápido aos dados dos sensores e (2) restrições legais para armazenamento no exterior.
+> **Considerando:** (1) necessidade de acesso rápido aos dados dos sensores e (2) restrições
+> legais para armazenamento no exterior.
 
-<!-- TODO: desenvolver justificativa abordando:
-- Latência de rede: round-trip BR→EUA (~120 ms) vs local (<5 ms)
-- Conformidade com a LGPD: dados de sensores agrícolas em território nacional
-- Viabilidade econômica vs conformidade/latência
-- Conclusão: região escolhida e por quê
--->
+- **Latência de rede:** os sensores da fazenda enviam dados continuamente. Hospedar em
+  `us-east-1` (Virgínia) impõe um round-trip BR→EUA da ordem de ~120 ms, contra <5 ms em
+  `sa-east-1` (São Paulo). Para inferência em tempo (quase) real de saúde da plantação, a
+  menor latência melhora a responsividade e reduz o risco de timeout em leituras
+  frequentes.
+- **Conformidade com a LGPD:** os dados de sensores agrícolas (clima + cultura) podem ser
+  considerados dados da atividade rural/econômica. Manter o armazenamento e processamento
+  em território nacional (`sa-east-1`) facilita o atendimento à LGPD e a eventuais
+  exigências regulatórias de soberania de dados, além de simplificar auditorias.
+- **Viabilidade econômica:** São Paulo é ~71% mais cara ($19,86 vs $11,59/mês), diferença
+  de ~$8,27/mês (~R$ 46). Em valor absoluto o custo é baixo; a diferença é facilmente
+  absorvida diante do benefício de latência e conformidade.
+- **Conclusão:** apesar do custo maior, escolhe-se **`sa-east-1` (São Paulo)**, pois o
+  ganho de latência (<5 ms) e o alinhamento à LGPD/soberania de dados superam a diferença
+  de custo (que permanece pequena em valor absoluto para uma única instância pequena).
 
 ### 🎥 Vídeo demonstrativo (Entrega 2)
 
