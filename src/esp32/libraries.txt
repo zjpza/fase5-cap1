@@ -1,0 +1,4 @@
+# Bibliotecas Arduino usadas no Wokwi (ESP32)
+# Resolvidas automaticamente pelo Wokwi a partir deste arquivo.
+Adafruit DHT sensor library
+Adafruit Unified Sensor

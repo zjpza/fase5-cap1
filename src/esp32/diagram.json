@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "author": "FarmTech Solutions — PBL Fase 5",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "dht22", "id": "dht22", "top": -120, "left": 220, "attrs": {} },
+    { "type": "potentiometer", "id": "rain", "top": 120, "left": 220, "attrs": { "label": "Sensor de chuva (analógico)" } }
+  ],
+  "connections": [
+    [ "esp:3V3", "dht22:VCC", "red", [] ],
+    [ "esp:GND", "dht22:GND", "black", [] ],
+    [ "esp:4", "dht22:SDA", "green", [] ],
+    [ "esp:3V3", "rain:VCC", "red", [] ],
+    [ "esp:GND", "rain:GND", "black", [] ],
+    [ "esp:34", "rain:SIG", "blue", [] ]
+  ],
+  "dependencies": {}
+}
