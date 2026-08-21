@@ -50,7 +50,7 @@ A FarmTech Solutions atende uma fazenda de médio porte (≈200 ha) que produz v
 | `Precipitação (mm dia 1)` | Chuva em mm/dia |
 | `Umidade específica a 2 metros (g/kg)` | Vapor de água por kg de ar seco |
 | `Umidade relativa a 2 metros (%)` | Umidade relativa do ar |
-| `Temperatura a 2 metros (ºC)` | Temperatura a 2 m do solo |
+| `Temperatura a 2 metros (°C)` | Temperatura a 2 m do solo |
 | `Rendimento` | Rendimento em toneladas por hectare (alvo) |
 
 ### 📒 Notebook
@@ -156,8 +156,8 @@ e tabela de preços do Amazon EBS — ambas em aws.amazon.com. BRL indicativo a 
 ### Instalação
 
 ```bash
-git clone https://github.com/zjpza/fase-5-pbl-agro.git
-cd fase-5-pbl-agro
+git clone https://github.com/zjpza/fase5-cap1.git
+cd fase5-cap1
 
 python -m venv venv
 # Linux/Mac
@@ -204,7 +204,7 @@ fase-5-pbl-agro/
 └── assets/                                # Figuras da EDA, modelos e arquitetura
     ├── eda_*.png  cluster_*.png  outliers_*.png  models_*.png
     ├── arquitetura_ir_alem.png            # diagrama do Ir Além
-    └── cotacao_sa_east_1.png  cotacao_us_east_1.png  # (Entrega 2 — AWS)
+    └── cotacao_sa_east_1.png  cotacao_us_east_1.png  # (Entrega 2 — AWS, a adicionar manualmente)
 ```
 
 ---
