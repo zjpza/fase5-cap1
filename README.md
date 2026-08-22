@@ -124,21 +124,36 @@ e tabela de preços do Amazon EBS — ambas em aws.amazon.com. BRL indicativo a 
 > **Considerando:** (1) necessidade de acesso rápido aos dados dos sensores e (2) restrições
 > legais para armazenamento no exterior.
 
-- **Latência de rede:** os sensores da fazenda enviam dados continuamente. Hospedar em
-  `us-east-1` (Virgínia) impõe um round-trip BR→EUA da ordem de ~120 ms, contra <5 ms em
-  `sa-east-1` (São Paulo). Para inferência em tempo (quase) real de saúde da plantação, a
-  menor latência melhora a responsividade e reduz o risco de timeout em leituras
-  frequentes.
-- **Conformidade com a LGPD:** os dados de sensores agrícolas (clima + cultura) podem ser
-  considerados dados da atividade rural/econômica. Manter o armazenamento e processamento
-  em território nacional (`sa-east-1`) facilita o atendimento à LGPD e a eventuais
-  exigências regulatórias de soberania de dados, além de simplificar auditorias.
+- **Latência de rede:** os sensores da fazenda enviam dados continuamente para a API. Um
+  round-trip Brasil→Virgínia custa da ordem de ~120–150 ms, contra <10 ms dentro de
+  `sa-east-1` (São Paulo) — sem contar que links internacionais apresentam jitter e perda
+  de pacotes mais variáveis que o backbone nacional. Para ingestão contínua de telemetria
+  e inferência em tempo (quase) real da saúde da plantação, a baixa latência reduz o
+  risco de timeout nas leituras frequentes e melhora a responsividade percebida.
+- **Restrição legal / residência dos dados:** o cenário impõe restrições legais ao
+  armazenamento no exterior. Manter instância e volume EBS em `sa-east-1` mantém
+  processamento e armazenamento sob jurisdição brasileira, eliminando por completo o
+  risco regulatório de transferência internacional e simplificando auditorias junto a
+  órgãos nacionais.
+  - **Observação sobre a LGPD:** dados climáticos e de cultura, isoladamente, não são
+    dados pessoais — a LGPD (Lei 13.709/2018) não incide sobre eles. Porém, se a solução
+    evoluir para agregar dados pessoais (telemetria de operadores, geolocalização
+    vinculada a responsáveis, clientes da API), a lei passa a valer **e** a transferência
+    internacional de dados pessoais exigiria as salvaguardas do art. 33 (jurisdição
+    adequada, cláusulas contratuais padrão, consentimento específico etc.). Hospedar em
+    `sa-east-1` remove essa fricção jurídica por desenho.
 - **Viabilidade econômica:** São Paulo é ~71% mais cara ($19,86 vs $11,59/mês), diferença
-  de ~$8,27/mês (~R$ 46). Em valor absoluto o custo é baixo; a diferença é facilmente
-  absorvida diante do benefício de latência e conformidade.
-- **Conclusão:** apesar do custo maior, escolhe-se **`sa-east-1` (São Paulo)**, pois o
-  ganho de latência (<5 ms) e o alinhamento à LGPD/soberania de dados superam a diferença
-  de custo (que permanece pequena em valor absoluto para uma única instância pequena).
+  de ~$8,27/mês (~R$ 46). Em valor absoluto o prêmio é pequeno para uma única instância e
+  é absorvido pelo ganho de latência e pela conformidade. (Se no futuro a frota escalar
+  para dezenas de máquinas, o percentual volta à mesa — mas aí a comparação deve incluir
+  Savings Plans, fora do escopo On-Demand desta entrega.)
+- **Contraponto (análise crítica):** se a carga fosse de processamento em lote, sem
+  restrição legal e sem sensibilidade a latência, `us-east-1` seria a escolha racional —
+  economia de ~40% no conjunto. O que decide este caso não é o custo, e sim a combinação
+  "dados em tempo real + barreira legal".
+- **Conclusão:** escolhe-se **`sa-east-1` (São Paulo)**. O ganho de latência (<10 ms) e a
+  eliminação do risco de transferência internacional de dados superam o prêmio de custo,
+  que permanece trivial em valor absoluto neste porte.
 
 ### 🎥 Vídeo demonstrativo (Entrega 2)
 
