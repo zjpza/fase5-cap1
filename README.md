@@ -114,8 +114,14 @@ e tabela de preços do Amazon EBS — ambas em aws.amazon.com. BRL indicativo a 
 > _Prints da calculadora AWS a adicionar manualmente:_ `assets/cotacao_sa_east_1.png`
 > (cotação sa-east-1) e `assets/cotacao_us_east_1.png` (cotação us-east-1). Quando os arquivos
 > existirem, substituir este bloco por:
-> `![Cotação AWS — São Paulo](assets/cotacao_sa_east_1.png)` e
-> `![Cotação AWS — Virgínia](assets/cotacao_us_east_1.png)`.
+> `![Cotação AWS — São Paulo](<img width="2286" height="86" alt="image" src="https://github.com/user-attachments/assets/5fcb6f88-cd8d-48bf-81e9-ce4d2c47426f" />
+<img width="2372" height="84" alt="image" src="https://github.com/user-attachments/assets/804cc969-4d67-495b-8842-032aa42dbd24" />
+
+)` e
+> `![Cotação AWS — Virgínia](<img width="2286" height="106" alt="image" src="https://github.com/user-attachments/assets/92add413-e39e-4e15-a5da-c5776b6fa6f7" />
+<img width="2382" height="96" alt="image" src="https://github.com/user-attachments/assets/7434fa6f-1bc5-4b6a-b80b-b3fc17de8b1e" />
+
+)`.
 
 ![Comparativo de custos AWS](assets/custo_aws_comparativo.png)
 
