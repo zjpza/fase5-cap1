@@ -111,9 +111,7 @@ e tabela de preços do Amazon EBS — ambas em aws.amazon.com. BRL indicativo a 
 
 > São Paulo custa **~71% mais caro** que a Virgínia neste perfil (instância + EBS).
 
-> _Prints da calculadora AWS a adicionar manualmente:_ `assets/cotacao_sa_east_1.png`
-> (cotação sa-east-1) e `assets/cotacao_us_east_1.png` (cotação us-east-1). Quando os arquivos
-> existirem, substituir este bloco por:
+
 > `![Cotação AWS — São Paulo](assets/cotacao_sa_east_1.png)` <img width="1698" height="610" alt="image" src="https://github.com/user-attachments/assets/6e320d96-e815-4320-a50f-7f21c9085f0d" />
 e
 > `![Cotação AWS — Virgínia](assets/cotacao_us_east_1.png)`<img width="1562" height="644" alt="image" src="https://github.com/user-attachments/assets/1e92f742-8e8c-486f-9097-d6b6aab25c8a" />
