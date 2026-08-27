@@ -227,21 +227,100 @@ fase5-cap1/
 
 ## 🧭 Ir Além
 
-Implementamos **duas** opções do "Ir Além", que se integram ponta-a-ponta:
+Implementamos **duas** opções do "Ir Além", que se integram ponta-a-ponta num pipeline
+único: o ESP32 (Opção 1) coleta os dados de sensores e envia via Wi-Fi para a API (Opção 2),
+que classifica a saúde da plantação com o modelo de ML treinado na Entrega 1.
 
-- **Opção 2 — Classificação da saúde de plantações com ML:** API FastAPI que carrega o
-  classificador serializado na Issue #1 (`src/ml/models/health_classifier.pkl`) e serve
-  `/predict` (cultura + condições climáticas -> **Saudável**/**Não Saudável** + confiança).
-- **Opção 1 — Coleta de dados com ESP32 + Wi-Fi:** firmware ESP32 (simulado no Wokwi) que
-  lê DHT22 e sensor de chuva, calcula a umidade específica e envia `POST /predict` para a
-  API, exibindo a classificação no monitor serial.
+| Opção | Título | Onde está |
+|-------|--------|-----------|
+| **1** | Sistema de Coleta e Comunicação de Dados Usando ESP32 + Wi-Fi | [`src/esp32/`](src/esp32/) |
+| **2** | Classificação da Saúde de Plantações Usando Machine Learning e ESP32 | [`src/api/`](src/api/) + [`src/ml/models/`](src/ml/models/) |
 
-![Arquitetura Ir Além](assets/arquitetura_ir_alem.png)
+![Arquitetura Ir Além (ponta-a-ponta)](assets/arquitetura_ir_alem.png)
 
-## Opção 2 — API FastAPI (classificador de saúde)
+> Diagrama completo do fluxo: ESP32 (Wokwi) → Wi-Fi → API FastAPI → Pipeline sklearn → Resposta no Serial.
 
-A API carrega o classificador de saúde serializado na Issue #1 e retorna **Saudável** ou
-**Não Saudável** (relativo à mediana de cada cultura), com a confiança da predição.
+---
+
+## 🟢 Ir Além — Opção 1: Coleta de Dados com ESP32 + Wi-Fi
+
+> **Título do enunciado:** *Sistema de Coleta e Comunicação de Dados Usando ESP32 Integrado ao Wi-Fi.*
+
+### Objetivo e escolha dos sensores
+
+O firmware [`src/esp32/farmtech_esp32.ino`](src/esp32/farmtech_esp32.ino) roda num **ESP32
+DevKit V1** simulado no [Wokwi](https://wokwi.com). A cada ciclo ele:
+
+1. lê **temperatura** e **umidade relativa** do **DHT22**;
+2. lê o **sensor de chuva** (analógico, emulado por potenciômetro no Wokwi) e estima a
+   precipitação;
+3. calcula a **umidade específica** (g/kg) via fórmula meteorológica de Magnus a partir de
+   T e UR (reproduz os valores do dataset de treino — ex.: ~17,7 g/kg a 26 °C / 83 %);
+4. conecta ao Wi-Fi e envia `POST /predict` com `{crop, precipitation, specific_humidity,
+   relative_humidity, temperature}`;
+5. exibe no **monitor serial** a classificação `Saudável` / `Não Saudável` e a confiança.
+
+### Justificativa dos sensores e alinhamento com a FarmTech
+
+Os sensores espelham as features climáticas usadas no treino do classificador:
+
+- **DHT22** (temperatura + umidade relativa): fornece diretamente `temperature` e
+  `relative_humidity` e, via fórmula de Magnus, a `specific_humidity` — as três features
+  derivadas de clima. Precisão ±0,5 °C / ±2 % UR, adequada a campo.
+- **Sensor de chuva analógico:** aproxima a `precipitation`. No Wokwi é emulado por um
+  potenciômetro (saída 0–3,3 V mapeada para a faixa de precipitação do dataset, com
+  inversão: maior tensão = seco = menor chuva). Em campo seria um módulo de chuva real,
+  calibrado para a escala de treino.
+- **Alinhamento FarmTech:** a fazenda de médio porte já usa sensores climáticos para
+  irrigation; o ESP32 reusa essa infraestrutura para alimentar o classificador de saúde em
+  tempo real, sem instalar novos sensores — apenas o firmware + a API. A cultura (`crop`) é
+  configurada por nó (`#define CROP`), permitindo um ESP32 por talhão.
+
+### Circuito (Wokwi)
+
+`src/esp32/diagram.json` monta: **ESP32 DevKit V1** + DHT22 (GPIO4) + potenciômetro como
+sensor de chuva analógico (GPIO34, ADC1 — compatível com Wi-Fi). Bibliotecas em
+`src/esp32/libraries.txt` (Adafruit DHT + Unified Sensor).
+
+### Como simular
+
+1. Suba a API da Opção 2 em um host alcançável pelo ESP32 e ajuste `API_HOST` no sketch.
+2. Abra o Wokwi com os arquivos de `src/esp32/` (`.ino` + `diagram.json` + `libraries.txt`).
+3. Inicie a simulação; o monitor serial mostra as leituras e a classificação a cada ciclo.
+
+> **Nota de simulação:** a rede do Wokwi é simulada — para um teste ponta-a-ponta real,
+> exponha a API num host público (ex.: tunnel/ngrok) e aponte `API_HOST` para ele.
+
+### Arquivos
+
+| Arquivo | Função |
+|---------|--------|
+| [`src/esp32/farmtech_esp32.ino`](src/esp32/farmtech_esp32.ino) | Firmware ESP32 (DHT22, chuva, Wi-Fi, POST) |
+| [`src/esp32/diagram.json`](src/esp32/diagram.json) | Circuito Wokwi (ESP32 + DHT22 + pot. chuva) |
+| [`src/esp32/libraries.txt`](src/esp32/libraries.txt) | Dependências de bibliotecas do Wokwi |
+
+### ✅ Entregáveis (Opção 1)
+
+- [x] ESP32 real (simulado no Wokwi) com comunicação Wi-Fi funcional
+- [x] Dois sensores distintos (DHT22 + sensor de chuva) alinhados ao contexto FarmTech
+- [x] Dados coletados enviados à API (POST `/predict`)
+- [x] Código-fonte comentado e organizado no GitHub
+- [x] Figura da arquitetura do circuito/tecnologias (`assets/arquitetura_ir_alem.png`)
+- [x] Justificativa clara dos sensores (seção acima)
+- [ ] Vídeo de demonstração (~5 min, YouTube "não listado") —
+  [🔗 link a adicionar](_PLACEHOLDER_VIDEO_IRALEM_1_)
+
+---
+
+## 🔵 Ir Além — Opção 2: Classificação da Saúde da Plantação com ML
+
+> **Título do enunciado:** *Classificação da Saúde de Plantações Usando Machine Learning e ESP32.*
+
+### Objetivo
+
+A API carrega o classificador de saúde serializado (treinado na Entrega 1) e retorna
+**Saudável** ou **Não Saudável** (relativo à mediana de cada cultura), com a confiança da
+predição. Os dados chegam em tempo real do ESP32 da Opção 1.
 
 ### Como rodar
 
@@ -280,7 +359,7 @@ Interface interativa (Swagger UI): <http://localhost:8000/docs>
 > Valores aceitos para `crop`: `Cocoa, beans`, `Oil palm fruit`, `Rice, paddy`,
 > `Rubber, natural` (exatamente como no dataset). Outros valores são rejeitados (HTTP 422).
 
-### Arquitetura
+### Arquitetura do modelo
 
 O `.pkl` serializado **é o pipeline sklearn completo** (`ColumnTransformer` +
 `RandomForestClassifier`), logo o pré-processamento servido pela API é idêntico ao do
@@ -288,58 +367,23 @@ treino — sem leakage nem inconsistência. A API apenas mapeia os nomes amigáv
 esquema de entrada (em inglês) para os nomes PT-BR esperados pelo `ColumnTransformer`
 (descritos em `src/ml/models/label_map.json`).
 
+### Arquivos
+
 | Arquivo | Função |
 |---------|--------|
 | [`src/api/main.py`](src/api/main.py) | App FastAPI (lifespan, `/health`, `/predict`) |
 | [`src/api/schemas.py`](src/api/schemas.py) | Modelos Pydantic de entrada/saída |
+| [`src/ml/models/health_classifier.pkl`](src/ml/models/health_classifier.pkl) | Pipeline sklearn serializado (classificador de saúde) |
+| [`src/ml/models/label_map.json`](src/ml/models/label_map.json) | Mapeamento de features/rótulos (esquema ↔ ColumnTransformer) |
 
-## Opção 1 — ESP32 (Wokwi) coleta sensores e envia para a API
+### ✅ Entregáveis (Opção 2)
 
-O firmware [`src/esp32/farmtech_esp32.ino`](src/esp32/farmtech_esp32.ino) roda num ESP32
-simulado no [Wokwi](https://wokwi.com). A cada ciclo ele:
-
-1. lê **temperatura** e **umidade relativa** do **DHT22**;
-2. lê o **sensor de chuva** (analógico, emulado por potenciômetro no Wokwi) e estima a
-   precipitação;
-3. calcula a **umidade específica** (g/kg) via fórmula meteorológica de Magnus a partir de
-   T e UR (reproduz os valores do dataset de treino — ex.: ~17,7 g/kg a 26 °C / 83 %);
-4. conecta ao Wi-Fi e envia `POST /predict` com `{crop, precipitation, specific_humidity,
-   relative_humidity, temperature}`;
-5. exibe no **monitor serial** a classificação `Saudável` / `Não Saudável` e a confiança.
-
-### Circuito (Wokwi)
-
-`src/esp32/diagram.json` monta: ESP32 DevKit V1 + DHT22 (GPIO4) + potenciômetro como sensor
-de chuva analógico (GPIO34, ADC1 — compatível com Wi-Fi). Bibliotecas em
-`src/esp32/libraries.txt` (Adafruit DHT + Unified Sensor).
-
-### Justificativa dos sensores e alinhamento com a FarmTech
-
-Os sensores espelham as features climáticas usadas no treino do classificador:
-
-- **DHT22** (temperatura + umidade relativa): fornece diretamente `temperature` e
-  `relative_humidity` e, via fórmula de Magnus, a `specific_humidity` — as três features
-  derivadas de clima. Precisão ±0,5 °C / ±2 % UR, adequada a campo.
-- **Sensor de chuva analógico:** aproxima a `precipitation`. No Wokwi é emulado por um
-  potenciômetro (saída 0–3,3 V mapeada para a faixa de precipitação do dataset, com
-  inversão: maior tensão = seco = menor chuva). Em campo seria um módulo de chuva real,
-  calibrado para a escala de treino.
-- **Alinhamento FarmTech:** a fazenda de médio porte já usa sensores climáticos para
-  irrigation; o ESP32 reusa essa infraestrutura para alimentar o classificador de saúde em
-  tempo real, sem instalar novos sensores — apenas o firmware + a API. A cultura (`crop`) é
-  configurada por nó (`#define CROP`), permitindo um ESP32 por talhão.
-
-### Como simular
-
-1. Suba a API da Opção 2 em um host alcançável pelo ESP32 e ajuste `API_HOST` no sketch.
-2. Abra o Wokwi com os arquivos de `src/esp32/` (`.ino` + `diagram.json` + `libraries.txt`).
-3. Inicie a simulação; o monitor serial mostra as leituras e a classificação a cada ciclo.
-
-> **Nota de simulação:** a rede do Wokwi é simulada — para um teste ponta-a-ponta real,
-> exponha a API num host público (ex.: tunnel/ngrok) e aponte `API_HOST` para ele.
-
-| Arquivo | Função |
-|---------|--------|
-| [`src/esp32/farmtech_esp32.ino`](src/esp32/farmtech_esp32.ino) | Firmware ESP32 (DHT22, chuva, Wi-Fi, POST) |
-| [`src/esp32/diagram.json`](src/esp32/diagram.json) | Circuito Wokwi (ESP32 + DHT22 + pot. chuva) |
-| [`src/esp32/libraries.txt`](src/esp32/libraries.txt) | Dependências de bibliotecas do Wokwi |
+- [x] Modelo de ML funcional (RandomForestClassifier) treinado e serializado
+- [x] Integração ESP32 → API (coleta em tempo real via Opção 1)
+- [x] API estável servindo inferência (`/predict` + `/health`)
+- [x] Validação com dados novos (inferência coerente, confiança informada)
+- [x] Código-fonte comentado e organizado no GitHub
+- [x] Figura da arquitetura com as tecnologias (`assets/arquitetura_ir_alem.png`)
+- [x] Justificativa clara de sensores e metodologia
+- [ ] Vídeo de demonstração (~5 min, YouTube "não listado") —
+  [🔗 link a adicionar](_PLACEHOLDER_VIDEO_IRALEM_2_)
