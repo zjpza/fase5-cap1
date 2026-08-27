@@ -112,9 +112,10 @@ e tabela de preços do Amazon EBS — ambas em aws.amazon.com. BRL indicativo a 
 > São Paulo custa **~71% mais caro** que a Virgínia neste perfil (instância + EBS).
 
 ### Evidências das cotações AWS
-> ![Cotação AWS — São Paulo](assets/cotacao_sa_east_1.png)
-e
-> ![Cotação AWS — Virgínia](assets/cotacao_us_east_1.png)
+
+![Cotação AWS — São Paulo](assets/cotacao_sa_east_1.png)
+
+![Cotação AWS — Virgínia](assets/cotacao_us_east_1.png)
 
 
 ![Comparativo de custos AWS](assets/custo_aws_comparativo.png)
