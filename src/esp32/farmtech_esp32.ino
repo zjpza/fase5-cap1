@@ -14,7 +14,7 @@
  *    Resposta {"health":"Saudável"|"Não Saudável","confidence":..} exibida no Serial.
  *
  *  Hardware (diagram.json):
- *    - ESP32 DevKit V1
+ *    - ESP32 DevKitC V4 (part Wokwi: board-esp32-devkit-c-v4)
  *    - DHT22 em GPIO4  (VCC=3V3, GND=GND, SDA=GPIO4)
  *    - "Sensor de chuva" emulado por POTENCIÔMETRO em GPIO34 (ADC1, compatível c/ WiFi)
  *

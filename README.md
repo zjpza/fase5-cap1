@@ -249,7 +249,8 @@ que classifica a saúde da plantação com o modelo de ML treinado na Entrega 1.
 ### Objetivo e escolha dos sensores
 
 O firmware [`src/esp32/farmtech_esp32.ino`](src/esp32/farmtech_esp32.ino) roda num **ESP32
-DevKit V1** simulado no [Wokwi](https://wokwi.com). A cada ciclo ele:
+DevKitC V4** (chip clássico ESP-WROOM-32, part `board-esp32-devkit-c-v4`) simulado no
+[Wokwi](https://wokwi.com). A cada ciclo ele:
 
 1. lê **temperatura** e **umidade relativa** do **DHT22**;
 2. lê o **sensor de chuva** (analógico, emulado por potenciômetro no Wokwi) e estima a
@@ -278,9 +279,9 @@ Os sensores espelham as features climáticas usadas no treino do classificador:
 
 ### Circuito (Wokwi)
 
-`src/esp32/diagram.json` monta: **ESP32 DevKit V1** + DHT22 (GPIO4) + potenciômetro como
-sensor de chuva analógico (GPIO34, ADC1 — compatível com Wi-Fi). Bibliotecas em
-`src/esp32/libraries.txt` (Adafruit DHT + Unified Sensor).
+`src/esp32/diagram.json` monta: **ESP32 DevKitC V4** (`board-esp32-devkit-c-v4`) + DHT22
+(GPIO4) + potenciômetro como sensor de chuva analógico (GPIO34, ADC1 — compatível com
+Wi-Fi). Bibliotecas em `src/esp32/libraries.txt` (Adafruit DHT + Unified Sensor).
 
 ### Como simular
 
