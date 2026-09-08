@@ -6,13 +6,13 @@
 
 ## 👨‍🎓 Integrantes
 
-| Nome | RM | GitHub |
-|------|----|--------|
-| Henrique Sanches Silva | RM 570527 | [@HenriqueSanchesSilva](https://github.com/HenriqueSanchesSilva) |
-| João Pedro Zavanela Andreu | RM 570231 | [@zjpza](https://github.com/zjpza) |
-| Kayck Gabriel Evangelista da Silva | RM 572331 | [@Kayckxz](https://github.com/Kayckxz) |
-| Luis Henrique Laurentino Boschi | RM 571352 | [@lhboschi](https://github.com/lhboschi) |
-| Patrick Borges de Melo | RM 574030 | [@Trickmelo](https://github.com/Trickmelo) |
+| Nome                               | RM        | GitHub                                                           |
+| ---------------------------------- | --------- | ---------------------------------------------------------------- |
+| Henrique Sanches Silva             | RM 570527 | [@HenriqueSanchesSilva](https://github.com/HenriqueSanchesSilva) |
+| João Pedro Zavanela Andreu         | RM 570231 | [@zjpza](https://github.com/zjpza)                               |
+| Kayck Gabriel Evangelista da Silva | RM 572331 | [@Kayckxz](https://github.com/Kayckxz)                           |
+| Luis Henrique Laurentino Boschi    | RM 571352 | [@lhboschi](https://github.com/lhboschi)                         |
+| Patrick Borges de Melo             | RM 574030 | [@Trickmelo](https://github.com/Trickmelo)                       |
 
 **Tutora:** Sabrina Otoni
 **Coordenador:** André Godoi
@@ -25,10 +25,10 @@
 
 Este repositório contempla as **duas entregas obrigatórias** da Fase 5:
 
-| Entrega | Tema | Onde está |
-|---------|------|-----------|
-| **Entrega 1** | Machine Learning — análise exploratória, clusterização e 5 modelos de regressão para prever rendimento de safra | [`notebooks/`](notebooks/) |
-| **Entrega 2** | Computação em Nuvem — estimativa de custos AWS comparando São Paulo (BR) vs Virgínia do Norte (EUA) | Seção [☁️ Entrega 2 — Nuvem AWS](#-entrega-2--nuvem-aws) abaixo |
+| Entrega       | Tema                                                                                                            | Onde está                                                       |
+| ------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| **Entrega 1** | Machine Learning — análise exploratória, clusterização e 5 modelos de regressão para prever rendimento de safra | [`notebooks/`](notebooks/)                                      |
+| **Entrega 2** | Computação em Nuvem — estimativa de custos AWS comparando São Paulo (BR) vs Virgínia do Norte (EUA)             | Seção [☁️ Entrega 2 — Nuvem AWS](#-entrega-2--nuvem-aws) abaixo |
 
 O detalhamento técnico completo (código, gráficos, achados e conclusões) está no **Jupyter Notebook**. Este README é apenas uma introdução que conduz o leitor até ele.
 
@@ -44,14 +44,14 @@ A FarmTech Solutions atende uma fazenda de médio porte (≈200 ha) que produz v
 
 ### Variáveis do dataset
 
-| Variável | Descrição |
-|----------|-----------|
-| `Cultura` | Nome da safra (categórica) |
-| `Precipitação (mm dia 1)` | Chuva em mm/dia |
-| `Umidade específica a 2 metros (g/kg)` | Vapor de água por kg de ar seco |
-| `Umidade relativa a 2 metros (%)` | Umidade relativa do ar |
-| `Temperatura a 2 metros (°C)` | Temperatura a 2 m do solo |
-| `Rendimento` | Rendimento em toneladas por hectare (alvo) |
+| Variável                               | Descrição                                  |
+| -------------------------------------- | ------------------------------------------ |
+| `Cultura`                              | Nome da safra (categórica)                 |
+| `Precipitação (mm dia 1)`              | Chuva em mm/dia                            |
+| `Umidade específica a 2 metros (g/kg)` | Vapor de água por kg de ar seco            |
+| `Umidade relativa a 2 metros (%)`      | Umidade relativa do ar                     |
+| `Temperatura a 2 metros (°C)`          | Temperatura a 2 m do solo                  |
+| `Rendimento`                           | Rendimento em toneladas por hectare (alvo) |
 
 ### 📒 Notebook
 
@@ -61,7 +61,7 @@ A FarmTech Solutions atende uma fazenda de médio porte (≈200 ha) que produz v
 
 ### 🎥 Vídeo demonstrativo (Entrega 1)
 
-[🔗 Link do vídeo no YouTube — não listado](_PLACEHOLDER_VIDEO_ENTREGA1_)
+[🔗 Link do vídeo no YouTube — não listado](https://youtu.be/VZLPFvKq8qo)
 
 ---
 
@@ -76,12 +76,12 @@ A Machine Learning da Entrega 1 precisa ser hospedada em nuvem para receber dado
 
 ### Configuração exigida
 
-| Recurso | Especificação |
-|---------|---------------|
-| vCPU | 2 |
-| Memória | 1 GiB |
-| Rede | Até 5 Gigabit |
-| Armazenamento (HD) | 50 GB |
+| Recurso            | Especificação |
+| ------------------ | ------------- |
+| vCPU               | 2             |
+| Memória            | 1 GiB         |
+| Rede               | Até 5 Gigabit |
+| Armazenamento (HD) | 50 GB         |
 
 ### Instância selecionada
 
@@ -89,9 +89,9 @@ A instância **`t3.micro`** atende exatamente à configuração exigida: 2 vCPU,
 rede "Up to 5 Gigabit" e armazenamento via EBS. (A `t3.small` tem 2 GiB — mais RAM do que o
 pedido; a `t3.micro` é a correspondência exata.)
 
-| Instância | vCPU | RAM | Rede | Região |
-|-----------|------|-----|------|--------|
-| `t3.micro` | 2 | 1 GiB | Até 5 Gbps | sa-east-1 / us-east-1 |
+| Instância  | vCPU | RAM   | Rede       | Região                |
+| ---------- | ---- | ----- | ---------- | --------------------- |
+| `t3.micro` | 2    | 1 GiB | Até 5 Gbps | sa-east-1 / us-east-1 |
 
 ### Comparativo de custos (On-Demand, Linux, 730 h/mês)
 
@@ -99,15 +99,16 @@ Valores em USD, **fontes oficiais AWS** (referência 2025): tabela pública On-D
 e tabela de preços do Amazon EBS — ambas em aws.amazon.com. BRL indicativo a ≈ R$ 5,50 / US$ 1.
 
 **Fontes oficiais AWS:**
+
 - EC2 On-Demand (t3.micro): <https://aws.amazon.com/ec2/pricing/on-demand/> — us-east-1 $0,0104/h; sa-east-1 $0,0168/h (Linux, On-Demand).
 - Amazon EBS (gp3): <https://aws.amazon.com/ebs/pricing/> — us-east-1 $0,08/GB-mês; sa-east-1 $0,152/GB-mês.
 
-| Componente | São Paulo (sa-east-1) | Virgínia (us-east-1) |
-|------------|----------------------|----------------------|
-| Instância t3.micro (On-Demand) | $0,0168/h → **$12,26/mês** | $0,0104/h → **$7,59/mês** |
-| Volume EBS 50 GB (gp3) | $0,152/GB-mês → **$7,60/mês** | $0,08/GB-mês → **$4,00/mês** |
-| **Total mensal (USD)** | **$19,86** | **$11,59** |
-| Total mensal (BRL ≈5,50) | ≈ R$ 109,23 | ≈ R$ 63,75 |
+| Componente                     | São Paulo (sa-east-1)         | Virgínia (us-east-1)         |
+| ------------------------------ | ----------------------------- | ---------------------------- |
+| Instância t3.micro (On-Demand) | $0,0168/h → **$12,26/mês**    | $0,0104/h → **$7,59/mês**    |
+| Volume EBS 50 GB (gp3)         | $0,152/GB-mês → **$7,60/mês** | $0,08/GB-mês → **$4,00/mês** |
+| **Total mensal (USD)**         | **$19,86**                    | **$11,59**                   |
+| Total mensal (BRL ≈5,50)       | ≈ R$ 109,23                   | ≈ R$ 63,75                   |
 
 > São Paulo custa **~71% mais caro** que a Virgínia neste perfil (instância + EBS).
 
@@ -116,7 +117,6 @@ e tabela de preços do Amazon EBS — ambas em aws.amazon.com. BRL indicativo a 
 ![Cotação AWS — São Paulo](assets/cotacao_sa_east_1.png)
 
 ![Cotação AWS — Virgínia](assets/cotacao_us_east_1.png)
-
 
 ![Comparativo de custos AWS](assets/custo_aws_comparativo.png)
 
@@ -158,7 +158,7 @@ e tabela de preços do Amazon EBS — ambas em aws.amazon.com. BRL indicativo a 
 
 ### 🎥 Vídeo demonstrativo (Entrega 2)
 
-[🔗 Link do vídeo no YouTube — não listado](_PLACEHOLDER_VIDEO_ENTREGA2_)
+[🔗 Link do vídeo no YouTube — não listado](https://youtu.be/DtKF7jHEaCc)
 
 ---
 
@@ -231,9 +231,9 @@ Implementamos **duas** opções do "Ir Além", que se integram ponta-a-ponta num
 único: o ESP32 (Opção 1) coleta os dados de sensores e envia via Wi-Fi para a API (Opção 2),
 que classifica a saúde da plantação com o modelo de ML treinado na Entrega 1.
 
-| Opção | Título | Onde está |
-|-------|--------|-----------|
-| **1** | Sistema de Coleta e Comunicação de Dados Usando ESP32 + Wi-Fi | [`src/esp32/`](src/esp32/) |
+| Opção | Título                                                               | Onde está                                                   |
+| ----- | -------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **1** | Sistema de Coleta e Comunicação de Dados Usando ESP32 + Wi-Fi        | [`src/esp32/`](src/esp32/)                                  |
 | **2** | Classificação da Saúde de Plantações Usando Machine Learning e ESP32 | [`src/api/`](src/api/) + [`src/ml/models/`](src/ml/models/) |
 
 ![Arquitetura Ir Além (ponta-a-ponta)](assets/arquitetura_ir_alem.png)
@@ -244,7 +244,7 @@ que classifica a saúde da plantação com o modelo de ML treinado na Entrega 1.
 
 ## 🟢 Ir Além — Opção 1: Coleta de Dados com ESP32 + Wi-Fi
 
-> **Título do enunciado:** *Sistema de Coleta e Comunicação de Dados Usando ESP32 Integrado ao Wi-Fi.*
+> **Título do enunciado:** _Sistema de Coleta e Comunicação de Dados Usando ESP32 Integrado ao Wi-Fi._
 
 ### Objetivo e escolha dos sensores
 
@@ -258,7 +258,7 @@ DevKitC V4** (chip clássico ESP-WROOM-32, part `board-esp32-devkit-c-v4`) simul
 3. calcula a **umidade específica** (g/kg) via fórmula meteorológica de Magnus a partir de
    T e UR (reproduz os valores do dataset de treino — ex.: ~17,7 g/kg a 26 °C / 83 %);
 4. conecta ao Wi-Fi e envia `POST /predict` com `{crop, precipitation, specific_humidity,
-   relative_humidity, temperature}`;
+relative_humidity, temperature}`;
 5. exibe no **monitor serial** a classificação `Saudável` / `Não Saudável` e a confiança.
 
 ### Justificativa dos sensores e alinhamento com a FarmTech
@@ -281,24 +281,31 @@ Os sensores espelham as features climáticas usadas no treino do classificador:
 
 `src/esp32/diagram.json` monta: **ESP32 DevKitC V4** (`board-esp32-devkit-c-v4`) + DHT22
 (GPIO4) + potenciômetro como sensor de chuva analógico (GPIO34, ADC1 — compatível com
-Wi-Fi). Bibliotecas em `src/esp32/libraries.txt` (Adafruit DHT + Unified Sensor).
+Wi-Fi). Bibliotecas em `src/esp32/libraries.txt` (DHT sensor library + Adafruit Unified Sensor).
 
 ### Como simular
 
-1. Suba a API da Opção 2 em um host alcançável pelo ESP32 e ajuste `API_HOST` no sketch.
-2. Abra o Wokwi com os arquivos de `src/esp32/` (`.ino` + `diagram.json` + `libraries.txt`).
-3. Inicie a simulação; o monitor serial mostra as leituras e a classificação a cada ciclo.
+1. Suba a API da Opção 2 localmente: `python -m uvicorn src.api.main:app --port 8000`.
+2. Exponha a API num host público que o Wokwi alcance (não resolve `127.0.0.1`):
+   ```bash
+   cloudflared tunnel --url http://localhost:8000
+   ```
+   O comando imprime uma URL `https://xxxx.trycloudflare.com` — cole em `API_HOST` no sketch.
+3. Abra o Wokwi com os arquivos de `src/esp32/` (`.ino` + `diagram.json` + `libraries.txt`).
+4. Inicie a simulação; o monitor serial mostra as leituras e a classificação a cada ciclo.
 
-> **Nota de simulação:** a rede do Wokwi é simulada — para um teste ponta-a-ponta real,
-> exponha a API num host público (ex.: tunnel/ngrok) e aponte `API_HOST` para ele.
+> **Nota de simulação:** a rede do Wokwi é simulada e não alcança `127.0.0.1`, por isso o
+> túnel. Usamos **cloudflared** (`trycloudflare.com`) — grátis, sem conta e resolvido pelo
+> gateway do Wokwi. A URL do túnel muda a cada execução; o firmware já detecta `https` e usa
+> TLS (`WiFiClientSecure.setInsecure`).
 
 ### Arquivos
 
-| Arquivo | Função |
-|---------|--------|
-| [`src/esp32/farmtech_esp32.ino`](src/esp32/farmtech_esp32.ino) | Firmware ESP32 (DHT22, chuva, Wi-Fi, POST) |
-| [`src/esp32/diagram.json`](src/esp32/diagram.json) | Circuito Wokwi (ESP32 + DHT22 + pot. chuva) |
-| [`src/esp32/libraries.txt`](src/esp32/libraries.txt) | Dependências de bibliotecas do Wokwi |
+| Arquivo                                                        | Função                                      |
+| -------------------------------------------------------------- | ------------------------------------------- |
+| [`src/esp32/farmtech_esp32.ino`](src/esp32/farmtech_esp32.ino) | Firmware ESP32 (DHT22, chuva, Wi-Fi, POST)  |
+| [`src/esp32/diagram.json`](src/esp32/diagram.json)             | Circuito Wokwi (ESP32 + DHT22 + pot. chuva) |
+| [`src/esp32/libraries.txt`](src/esp32/libraries.txt)           | Dependências de bibliotecas do Wokwi        |
 
 ### ✅ Entregáveis (Opção 1)
 
@@ -309,13 +316,13 @@ Wi-Fi). Bibliotecas em `src/esp32/libraries.txt` (Adafruit DHT + Unified Sensor)
 - [x] Figura da arquitetura do circuito/tecnologias (`assets/arquitetura_ir_alem.png`)
 - [x] Justificativa clara dos sensores (seção acima)
 - [ ] Vídeo de demonstração (~5 min, YouTube "não listado") —
-  [🔗 link a adicionar](_PLACEHOLDER_VIDEO_IRALEM_1_)
+      [🔗 link do vídeo no YouTube — não listado](https://youtu.be/nCl4uIw3Hfs)
 
 ---
 
 ## 🔵 Ir Além — Opção 2: Classificação da Saúde da Plantação com ML
 
-> **Título do enunciado:** *Classificação da Saúde de Plantações Usando Machine Learning e ESP32.*
+> **Título do enunciado:** _Classificação da Saúde de Plantações Usando Machine Learning e ESP32._
 
 ### Objetivo
 
@@ -334,10 +341,10 @@ Interface interativa (Swagger UI): <http://localhost:8000/docs>
 
 ### Endpoints
 
-| Método | Rota | Descrição |
-|---------|------|-----------|
-| `GET` | `/health` | Status do serviço (`{"status":"ok","model_loaded":true}`) |
-| `POST` | `/predict` | Classifica a saúde de uma observação |
+| Método | Rota       | Descrição                                                 |
+| ------ | ---------- | --------------------------------------------------------- |
+| `GET`  | `/health`  | Status do serviço (`{"status":"ok","model_loaded":true}`) |
+| `POST` | `/predict` | Classifica a saúde de uma observação                      |
 
 **Exemplo de request (`POST /predict`):**
 
@@ -370,12 +377,12 @@ esquema de entrada (em inglês) para os nomes PT-BR esperados pelo `ColumnTransf
 
 ### Arquivos
 
-| Arquivo | Função |
-|---------|--------|
-| [`src/api/main.py`](src/api/main.py) | App FastAPI (lifespan, `/health`, `/predict`) |
-| [`src/api/schemas.py`](src/api/schemas.py) | Modelos Pydantic de entrada/saída |
-| [`src/ml/models/health_classifier.pkl`](src/ml/models/health_classifier.pkl) | Pipeline sklearn serializado (classificador de saúde) |
-| [`src/ml/models/label_map.json`](src/ml/models/label_map.json) | Mapeamento de features/rótulos (esquema ↔ ColumnTransformer) |
+| Arquivo                                                                      | Função                                                       |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [`src/api/main.py`](src/api/main.py)                                         | App FastAPI (lifespan, `/health`, `/predict`)                |
+| [`src/api/schemas.py`](src/api/schemas.py)                                   | Modelos Pydantic de entrada/saída                            |
+| [`src/ml/models/health_classifier.pkl`](src/ml/models/health_classifier.pkl) | Pipeline sklearn serializado (classificador de saúde)        |
+| [`src/ml/models/label_map.json`](src/ml/models/label_map.json)               | Mapeamento de features/rótulos (esquema ↔ ColumnTransformer) |
 
 ### ✅ Entregáveis (Opção 2)
 
@@ -387,4 +394,4 @@ esquema de entrada (em inglês) para os nomes PT-BR esperados pelo `ColumnTransf
 - [x] Figura da arquitetura com as tecnologias (`assets/arquitetura_ir_alem.png`)
 - [x] Justificativa clara de sensores e metodologia
 - [ ] Vídeo de demonstração (~5 min, YouTube "não listado") —
-  [🔗 link a adicionar](_PLACEHOLDER_VIDEO_IRALEM_2_)
+      [🔗 link do vídeo no YouTube — não listado](https://youtu.be/atFOu83KKKo)

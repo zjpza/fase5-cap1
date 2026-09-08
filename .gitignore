@@ -36,3 +36,6 @@ __pycache__/
 # Sistema operacional
 .DS_Store
 Thumbs.db
+
+resume.txt
+data/roteiros_videos.md
