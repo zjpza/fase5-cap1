@@ -28,6 +28,7 @@
 
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <WiFiClientSecure.h>
 #include "DHT.h"
 
 // ---------------------------------------------------------------------------
@@ -35,14 +36,17 @@
 // ---------------------------------------------------------------------------
 // No Wokwi a rede é simulada: qualquer SSID/senha conecta. Em hardware real,
 // troque pelo SSID/senha reais e aponte API_HOST para o host onde a API roda
-// (ex.: ngrok ou IP da nuvem). A API da Issue #3 escuta em /predict.
+// (ex.: túnel cloudflared ou IP da nuvem). A API da Issue #3 escuta em /predict.
 #define WIFI_SSID     "Wokwi-GUEST"        // SSID da rede Wi-Fi
 #define WIFI_PASSWORD ""                   // senha (vazia para rede aberta simulada)
 
-// Host da API FastAPI. Para testar ponta-a-ponta fora do Wokwi, exponha a API
-// num host alcançável pela rede do ESP32 (ex.: tunnel) e ajuste aqui.
-#define API_HOST      "http://127.0.0.1:8000"
-#define API_ENDPOINT  API_HOST "/predict"
+// Host da API FastAPI. O Wokwi não alcança 127.0.0.1, então a API é exposta por
+// um túnel público. Para reproduzir: rode a API local (uvicorn na porta 8000) e
+// abra um túnel com `cloudflared tunnel --url http://localhost:8000` — ele imprime
+// uma URL https://xxxx.trycloudflare.com. Cole essa URL abaixo (ela muda a cada
+// execução do túnel). A URL atual foi a usada na gravação do vídeo demonstrativo.
+#define API_HOST      "https://apparently-filme-cleanup-focus.trycloudflare.com"
+#define API_ENDPOINT  API_HOST "/predict"     // API FastAPI da Issue #3 (túnel cloudflared)
 
 // Cultura monitorada neste nó ESP32. Deve ser um dos valores aceitos pela API:
 // "Cocoa, beans" | "Oil palm fruit" | "Rice, paddy" | "Rubber, natural"
@@ -129,6 +133,7 @@ void setup() {
   Serial.begin(115200);          // monitor serial para log e resultado
   delay(500);
   dht.begin();                   // inicializa DHT22
+  delay(2000);                   // warm-up do DHT22 (evita NaN na 1ª leitura no Wokwi)
 
   // Conecta ao Wi-Fi
   WiFi.mode(WIFI_STA);
@@ -150,9 +155,13 @@ void setup() {
 
 void loop() {
   // (a) Lê temperatura e umidade relativa do DHT22
-  float tempC = dht.readTemperature();        // °C
-  float relH  = dht.readHumidity();           // %
-  if (isnan(tempC) || isnan(relH)) {          // leitura falhou?
+  float tempC = NAN, relH = NAN;
+  for (int t = 0; t < 5 && (isnan(tempC) || isnan(relH)); t++) {
+    tempC = dht.readTemperature();            // °C
+    relH  = dht.readHumidity();               // %
+    if (isnan(tempC) || isnan(relH)) delay(600);   // DHT no Wokwi: retry
+  }
+  if (isnan(tempC) || isnan(relH)) {          // ainda falhou após retries?
     Serial.println("[ERRO] Falha na leitura do DHT22. Reiniciando ciclo.");
     delay(CICLO_MS);
     return;
@@ -171,8 +180,12 @@ void loop() {
 
   // (d) Envia POST para a API se houver rede
   if (WiFi.status() == WL_CONNECTED) {
+    WiFiClientSecure client;
+    client.setInsecure();                 // não valida cert TLS (ok p/ demo/Wokwi)
     HTTPClient http;
-    http.begin(API_ENDPOINT);             // endpoint /predict
+    http.begin(client, API_ENDPOINT);     // endpoint /predict (HTTPS via túnel)
+    http.setConnectTimeout(15000);        // 15s p/ conectar (internet do Wokwi é lenta)
+    http.setTimeout(15000);               // 15s p/ resposta
     http.addHeader("Content-Type", "application/json");
 
     // Monta o corpo JSON exatamente como o esquema Pydantic espera.

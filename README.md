@@ -281,16 +281,23 @@ Os sensores espelham as features climáticas usadas no treino do classificador:
 
 `src/esp32/diagram.json` monta: **ESP32 DevKitC V4** (`board-esp32-devkit-c-v4`) + DHT22
 (GPIO4) + potenciômetro como sensor de chuva analógico (GPIO34, ADC1 — compatível com
-Wi-Fi). Bibliotecas em `src/esp32/libraries.txt` (Adafruit DHT + Unified Sensor).
+Wi-Fi). Bibliotecas em `src/esp32/libraries.txt` (DHT sensor library + Adafruit Unified Sensor).
 
 ### Como simular
 
-1. Suba a API da Opção 2 em um host alcançável pelo ESP32 e ajuste `API_HOST` no sketch.
-2. Abra o Wokwi com os arquivos de `src/esp32/` (`.ino` + `diagram.json` + `libraries.txt`).
-3. Inicie a simulação; o monitor serial mostra as leituras e a classificação a cada ciclo.
+1. Suba a API da Opção 2 localmente: `python -m uvicorn src.api.main:app --port 8000`.
+2. Exponha a API num host público que o Wokwi alcance (não resolve `127.0.0.1`):
+   ```bash
+   cloudflared tunnel --url http://localhost:8000
+   ```
+   O comando imprime uma URL `https://xxxx.trycloudflare.com` — cole em `API_HOST` no sketch.
+3. Abra o Wokwi com os arquivos de `src/esp32/` (`.ino` + `diagram.json` + `libraries.txt`).
+4. Inicie a simulação; o monitor serial mostra as leituras e a classificação a cada ciclo.
 
-> **Nota de simulação:** a rede do Wokwi é simulada — para um teste ponta-a-ponta real,
-> exponha a API num host público (ex.: tunnel/ngrok) e aponte `API_HOST` para ele.
+> **Nota de simulação:** a rede do Wokwi é simulada e não alcança `127.0.0.1`, por isso o
+> túnel. Usamos **cloudflared** (`trycloudflare.com`) — grátis, sem conta e resolvido pelo
+> gateway do Wokwi. A URL do túnel muda a cada execução; o firmware já detecta `https` e usa
+> TLS (`WiFiClientSecure.setInsecure`).
 
 ### Arquivos
 
